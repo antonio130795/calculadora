@@ -82,11 +82,9 @@
 			                <generatorName>spring</generatorName>
 			                <apiPackage>com.prueba.calculadora</apiPackage>
 			                <modelPackage>com.prueba.calculadora.model</modelPackage>
-			                <supportingFilesToGenerate>
-			                    ApiUtil.java
-			                </supportingFilesToGenerate>
 			                <configOptions>
-			                    <delegatePattern>true</delegatePattern>
+			                    <interfaceOnly>true</interfaceOnly>
+			                    <skipDefaultInterface>true</skipDefaultInterface>
 			                </configOptions>
 			            </configuration>
 			        </execution>

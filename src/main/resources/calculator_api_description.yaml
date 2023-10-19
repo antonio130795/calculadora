@@ -27,6 +27,10 @@ paths:
       responses:
         200:
           description: Success
+          content:
+            application/json:
+              schema:
+                type: number
         400:
           description: Bad Request
           content:
@@ -50,6 +54,10 @@ paths:
       responses:
         204:
           description: Success
+          content:
+            application/json:
+              schema:
+                type: number          
         400:
           description: Bad Request
           content:

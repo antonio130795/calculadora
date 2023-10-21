@@ -6,8 +6,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class CalculadoraApplicationTests {
 
+	
 	@Test
-	void contextLoads() {
-	}
+	   public void main() {
+	      CalculadoraApplication.main(new String[] {});
+	   }
 
 }

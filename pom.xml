@@ -68,6 +68,11 @@
 		    <version>5.10.0</version>
 		    <scope>test</scope>
   		</dependency>
+		<dependency>
+		    <groupId>io.corp.calculator</groupId>
+		    <artifactId>tracer</artifactId>
+		    <version>1.0.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>

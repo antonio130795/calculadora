@@ -8,9 +8,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
+import io.corp.calculator.TracerImpl;
+
 @RestControllerAdvice
 public class ControllerExceptionHandler {
   
+  TracerImpl tracerBean = new TracerImpl();
+	
   @ExceptionHandler(ResourceNotFoundException.class)
   @ResponseStatus(value = HttpStatus.NOT_FOUND)
   public ErrorMessage resourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
@@ -20,6 +24,8 @@ public class ControllerExceptionHandler {
             ex.getMessage(),
             request.getDescription(false));
     
+	tracerBean.trace("Exception : " + ex.getMessage());
+
     return message;
   }
   
@@ -31,6 +37,8 @@ public class ControllerExceptionHandler {
             new Date(),
             "JSON values must be numeric",
             request.getDescription(false));
+    
+    tracerBean.trace("Exception :JSON values must be numeric ");
     
     return message;
   }
@@ -44,6 +52,8 @@ public class ControllerExceptionHandler {
             "Json Body required",
             request.getDescription(false));
     
+    tracerBean.trace("Exception : Json Body required");
+    
     return message;
   }
   
@@ -55,6 +65,8 @@ public class ControllerExceptionHandler {
             new Date(),
             "Method Not Allowed",
             request.getDescription(false));
+    
+    tracerBean.trace("Exception : Method Not Allowed");
     
     return message;
   }

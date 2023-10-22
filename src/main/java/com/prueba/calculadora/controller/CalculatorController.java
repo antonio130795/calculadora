@@ -13,12 +13,17 @@ import com.prueba.calculadora.exceptions.ResourceNotFoundException;
 import com.prueba.calculadora.model.Operators;
 import com.prueba.calculadora.service.CalculatorService;
 
+import io.corp.calculator.TracerImpl;
+
 @ControllerAdvice
 @RestController
 @RequestMapping
 public class CalculatorController implements OperationsApi {
 	
 	CalculatorService calculatorService = new CalculatorService();
+	
+	TracerImpl tracerBean = new TracerImpl();
+
 	
 	@Override
 	public ResponseEntity<BigDecimal> subtraction(Operators operators) {
@@ -29,7 +34,8 @@ public class CalculatorController implements OperationsApi {
 		
 		BigDecimal result = calculatorService.getSubstract(operators);
 		ResponseEntity<BigDecimal> respuesta = new ResponseEntity<BigDecimal>(result, HttpStatus.OK);
-    	
+		tracerBean.trace("Result of the subtraction " + respuesta);
+
 		return respuesta;
 	}
 	
@@ -41,7 +47,8 @@ public class CalculatorController implements OperationsApi {
 		}
 		BigDecimal result = calculatorService.getSum(operators);
 		ResponseEntity<BigDecimal> respuesta = new ResponseEntity<BigDecimal>(result, HttpStatus.OK);
-    	
+		tracerBean.trace("Result of the sum " + respuesta);
+
 		return respuesta;
 	}
 }

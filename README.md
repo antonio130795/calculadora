@@ -11,3 +11,6 @@ En la ruta resources hay una colección de Postman con los casos de uso tratados
 
 Proyecto realizado en Java 17
 Spring boot version 3.1.4
+
+Realizar maven clean install
+posteriormente ejecutar como Spring Boot App

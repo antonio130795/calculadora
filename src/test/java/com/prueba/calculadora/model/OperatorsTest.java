@@ -1,4 +1,4 @@
-package com.prueba.calculadora;
+package com.prueba.calculadora.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -8,10 +8,10 @@ import org.junit.jupiter.api.Test;
 
 import com.prueba.calculadora.model.Operators;
 
-public class TestOperators {
+public class OperatorsTest {
 
 	@Test
-	public void testOperators() throws Exception {
+	void testOperators() throws Exception {
 		
 		Operators operators = new Operators();
 		Operators operators1 = new Operators();
@@ -42,7 +42,7 @@ public class TestOperators {
 		 
 	}
 	
-	 private String toIndentedString(Object o) {
+	 String toIndentedString(Object o) {
 		    if (o == null) {
 		      return "null";
 		    }

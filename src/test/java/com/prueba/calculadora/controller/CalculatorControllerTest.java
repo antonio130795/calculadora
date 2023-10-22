@@ -1,4 +1,4 @@
-package com.prueba.calculadora;
+package com.prueba.calculadora.controller;
 
 import java.math.BigDecimal;
 
@@ -17,19 +17,19 @@ import com.prueba.calculadora.service.CalculatorService;
 
 
 @WebMvcTest(CalculatorController.class)
-class TestCalculatorController {
+class CalculatorControllerTest {
 		
 	@Autowired
-	private MockMvc mockMvc;
+	MockMvc mockMvc;
 	
 	@Mock
-	private CalculatorService calculatorService;
+	CalculatorService calculatorService;
 	
 	@Mock
-	private CalculatorController calculatorController;
+	CalculatorController calculatorController;
 	
 	@Test
-	public void testSubstraction() throws Exception {
+	void testSubstraction() throws Exception {
 		
 		
 		Operators operators = new Operators();
@@ -46,7 +46,7 @@ class TestCalculatorController {
 	
 	
 	@Test
-	public void testSum() throws Exception {
+	void testSum() throws Exception {
 		
 		
 		Operators operators = new Operators();
@@ -62,7 +62,7 @@ class TestCalculatorController {
 	}
 	
 	@Test
-	public void testSubstractionException() throws Exception {
+	void testSubstractionException() throws Exception {
 		
 		
 		Operators operators = new Operators();
@@ -78,7 +78,7 @@ class TestCalculatorController {
 	}
 	
 	@Test
-	public void testSumException() throws Exception {
+	void testSumException() throws Exception {
 		
 		
 		Operators operators = new Operators();

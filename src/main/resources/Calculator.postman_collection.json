@@ -1,0 +1,109 @@
+{
+	"info": {
+		"_postman_id": "bbe42c35-2d84-4df1-9392-c4c435e21556",
+		"name": "Calculator",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "10191339"
+	},
+	"item": [
+		{
+			"name": "Sum",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstOperator\": 1.234,\r\n    \"SecondOperator\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/operations/sum"
+			},
+			"response": []
+		},
+		{
+			"name": "Subtraction",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstOperator\": 1.234,\r\n    \"SecondOperator\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/operations/subtraction"
+			},
+			"response": []
+		},
+		{
+			"name": "Controlled 404 bad body name attributes",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstOperator\": 1.234,\r\n    \"SecondOpertor\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/operations/subtraction"
+			},
+			"response": []
+		},
+		{
+			"name": "Controlled 400 bad number on json",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstOperator\": 1.234,\r\n    \"SecondOperator\": \"a\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/operations/sum"
+			},
+			"response": []
+		},
+		{
+			"name": "Controlled 500 body required",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": "http://localhost:8080/operations/subtraction"
+			},
+			"response": []
+		},
+		{
+			"name": "Conrolled 405 method Not Allowed",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/operations/sum"
+			},
+			"response": []
+		}
+	]
+}

@@ -1,6 +1,6 @@
 package com.prueba.calculadora.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.math.BigDecimal;
 
@@ -8,11 +8,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
-import com.prueba.calculadora.model.Operators;
-import com.prueba.calculadora.service.CalculatorService;
+import com.prueba.calculadora.exceptions.ResourceNotFoundException;
+import com.prueba.calculadora.model.CalculatorInput;
+
 
 @ExtendWith(MockitoExtension.class)
 public class CalculatorServiceTest {
@@ -21,25 +20,28 @@ public class CalculatorServiceTest {
 	CalculatorService calculatorService;
 	
 	@Test
-	void TestGetSubstract() {
-	
-		Operators operators = new Operators();
-		operators.setFirstOperator(new BigDecimal(1));
-		operators.setSecondOperator(new BigDecimal(3));
+	void TestCheckOperation() {
+		CalculatorInput calculatorInput = new CalculatorInput();
+		calculatorInput.setFirstOperator(new BigDecimal(1));
+		calculatorInput.setSecondOperator(new BigDecimal(2));
+		calculatorInput.setOperation("/");
+		Exception exception = assertThrows(ResourceNotFoundException.class, () -> {
+			calculatorService.performOperation(calculatorInput);
+	    });
 		
-		BigDecimal resta = calculatorService.getSubstract(operators);
-		assertEquals(resta, new BigDecimal(-2));
+
 	}
 	
 	@Test
-	void TestGetSum() {
-	
-		Operators operators = new Operators();
-		operators.setFirstOperator(new BigDecimal(1));
-		operators.setSecondOperator(new BigDecimal(3));
-		
-		BigDecimal resta = calculatorService.getSum(operators);
-		assertEquals(resta, new BigDecimal(4));
+	void TestCheckBodyExceptionOperatorNull() {
+		CalculatorInput calculatorInput = new CalculatorInput();
+		calculatorInput.setFirstOperator(new BigDecimal(1));
+		calculatorInput.setSecondOperator(null);
+		calculatorInput.setOperation("+");
+		Exception exception = assertThrows(ResourceNotFoundException.class, () -> {
+			calculatorService.performOperation(calculatorInput);
+	    });
 	}
+
 
 }

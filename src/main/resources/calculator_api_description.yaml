@@ -10,46 +10,19 @@ tags:
   - name: operations
     description: operations performed by the calculator
 paths:
-  /operations/sum:
+  /calculator:
     post:
       tags:
         - operations
-      summary: Performs the sum operation
-      description: Performs the sum of two numbers
-      operationId: sum
+      summary: performs the operations of a calculator
+      description: performs the operations of a calculator
+      operationId: calculator
       requestBody:
-        description: Two numbers to add
+        description: two numbers and the operator of the operation to be performed
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Operators'
-        required: true
-      responses:
-        200:
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: number
-        400:
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequestError'
-  /operations/subtraction:
-    post:
-      tags:
-        - operations
-      summary: Performs the subtraction operation
-      description: Performs the subtraction of two numbers
-      operationId: subtraction
-      requestBody:
-        description: Two numbers to add
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Operators'
+              $ref: '#/components/schemas/CalculatorInput'
         required: true
       responses:
         204:
@@ -57,21 +30,22 @@ paths:
           content:
             application/json:
               schema:
-                type: number          
-        400:
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequestError'
+                $ref: '#/components/schemas/Result'
 components:
   schemas:
-    Operators:
+    CalculatorInput:
       type: object
       properties:
         firstOperator:
           type: number
-        SecondOperator:
+        secondOperator:
+          type: number
+        operation:
+          type: string
+    Result:
+      type: object
+      properties:
+        result:
           type: number
     BadRequestError:
       type: object

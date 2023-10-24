@@ -1,7 +1,5 @@
 package com.prueba.calculadora.controller;
 
-import java.math.BigDecimal;
-
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +9,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import com.prueba.calculadora.model.Operators;
 import com.prueba.calculadora.service.CalculatorService;
 
 
@@ -30,13 +27,8 @@ class CalculatorControllerTest {
 	@Test
 	void testSubstraction() throws Exception {
 		
-		
-		Operators operators = new Operators();
-		operators.setFirstOperator(new BigDecimal(1));
-		operators.setSecondOperator(new BigDecimal(3));
-
-		String requestBody = "{\"firstOperator\" : 1,\"SecondOperator\" : 2}";
-		mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8080/operations/subtraction")
+		String requestBody = "{\"firstOperator\" : 1,\"secondOperator\" : 2,\"operation\" : \"-\"}";
+		mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8080/calculator")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(requestBody))
 				.andExpect(MockMvcResultMatchers.status().isOk());
@@ -46,14 +38,9 @@ class CalculatorControllerTest {
 	
 	@Test
 	void testSum() throws Exception {
-		
-		
-		Operators operators = new Operators();
-		operators.setFirstOperator(new BigDecimal(1));
-		operators.setSecondOperator(new BigDecimal(3));
 
-		String requestBody = "{\"firstOperator\" : 1,\"SecondOperator\" : 2}";
-		mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8080/operations/sum")
+		String requestBody = "{\"firstOperator\" : 1,\"secondOperator\" : 2,\"operation\" : \"+\"}";
+		mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8080/calculator")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(requestBody))
 				.andExpect(MockMvcResultMatchers.status().isOk());

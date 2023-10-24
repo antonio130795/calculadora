@@ -13,14 +13,14 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"firstOperator\": 1.234,\r\n    \"SecondOperator\": 2\r\n}",
+					"raw": "{\r\n    \"firstOperator\": 1.234,\r\n    \"secondOperator\": 2,\r\n    \"operation\": \"+\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
 						}
 					}
 				},
-				"url": "http://localhost:8080/operations/sum"
+				"url": "http://localhost:8080/calculator"
 			},
 			"response": []
 		},
@@ -31,19 +31,19 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"firstOperator\": 1.234,\r\n    \"SecondOperator\": 2\r\n}",
+					"raw": "{\r\n    \"firstOperator\": 1.234,\r\n    \"secondOperator\": 2,\r\n    \"operation\": \"-\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
 						}
 					}
 				},
-				"url": "http://localhost:8080/operations/subtraction"
+				"url": "http://localhost:8080/calculator"
 			},
 			"response": []
 		},
 		{
-			"name": "Controlled 404 bad body name attributes",
+			"name": "Controlled 404 json body malformed",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -56,7 +56,25 @@
 						}
 					}
 				},
-				"url": "http://localhost:8080/operations/subtraction"
+				"url": "http://localhost:8080/calculator"
+			},
+			"response": []
+		},
+		{
+			"name": "Controlled 404 json body malformed",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstOperator\": 1.234,\r\n    \"secondOperator\": 2,\r\n    \"operaion\": \"+\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/calculator"
 			},
 			"response": []
 		},
@@ -67,14 +85,32 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"firstOperator\": 1.234,\r\n    \"SecondOperator\": \"a\"\r\n}",
+					"raw": "{\r\n    \"firstOperator\": 1.234,\r\n    \"secondOperator\": \"a\",\r\n    \"operation\": \"-\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
 						}
 					}
 				},
-				"url": "http://localhost:8080/operations/sum"
+				"url": "http://localhost:8080/calculator"
+			},
+			"response": []
+		},
+		{
+			"name": "Controlled 400 bad operator on json",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstOperator\": 1.234,\r\n    \"secondOperator\": 1.2,  \r\n    \"operation\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/calculator"
 			},
 			"response": []
 		},
@@ -83,16 +119,7 @@
 			"request": {
 				"method": "POST",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "text"
-						}
-					}
-				},
-				"url": "http://localhost:8080/operations/subtraction"
+				"url": "http://localhost:8080/calculator"
 			},
 			"response": []
 		},
@@ -101,7 +128,7 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:8080/operations/sum"
+				"url": "http://localhost:8080/calculator"
 			},
 			"response": []
 		}

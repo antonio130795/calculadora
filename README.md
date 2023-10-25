@@ -32,8 +32,13 @@ Se han implementado las funcionalidades de suma y resta con dos operandos.
 Proyecto realizado en Java 17
 Spring boot version 3.1.4
 
-Realizar maven clean install
-Posteriormente ejecutar como Spring Boot App
+Lanzar el proyecto:
+
+mvn validate (para instalar la librería, solamente es necesario ejecutarlo la primera vez)
+
+mvn clean install (para realizar la compilación limpia)
+
+mvn spring-boot:run (para ejecutar el proyecto)
 
 En la ruta resources hay una colección de Postman con los casos de uso tratados y las excepciones controladas 
 

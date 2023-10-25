@@ -2,6 +2,7 @@ package com.prueba.calculadora.exceptions;
 
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -13,7 +14,8 @@ import io.corp.calculator.TracerImpl;
 @RestControllerAdvice
 public class ControllerExceptionHandler {
   
-  TracerImpl tracerBean = new TracerImpl();
+  @Autowired
+  TracerImpl tracer;
 	
   @ExceptionHandler(ResourceNotFoundException.class)
   @ResponseStatus(value = HttpStatus.NOT_FOUND)
@@ -24,7 +26,7 @@ public class ControllerExceptionHandler {
             ex.getMessage(),
             request.getDescription(false));
     
-	tracerBean.trace("Exception : " + ex.getMessage());
+	tracer.trace("Exception : " + ex.getMessage());
 
     return message;
   }
@@ -38,7 +40,7 @@ public class ControllerExceptionHandler {
             "JSON values must be numeric",
             request.getDescription(false));
     
-    tracerBean.trace("Exception :JSON values must be numeric ");
+    tracer.trace("Exception :JSON values must be numeric ");
     
     return message;
   }
@@ -52,7 +54,7 @@ public class ControllerExceptionHandler {
             "Json Body required",
             request.getDescription(false));
     
-    tracerBean.trace("Exception : Json Body required");
+    tracer.trace("Exception : Json Body required");
     
     return message;
   }
@@ -66,7 +68,7 @@ public class ControllerExceptionHandler {
             "Method Not Allowed",
             request.getDescription(false));
     
-    tracerBean.trace("Exception : Method Not Allowed");
+    tracer.trace("Exception : Method Not Allowed");
     
     return message;
   }

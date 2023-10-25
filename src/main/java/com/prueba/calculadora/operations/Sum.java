@@ -10,6 +10,7 @@ import io.corp.calculator.TracerImpl;
 
 @Component("SUM")
 public class Sum implements OperationsI {
+	
     @Autowired
     TracerImpl tracer;
 

@@ -1,16 +1,23 @@
 package com.prueba.calculadora.operations;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.prueba.calculadora.model.CalculatorInput;
 import com.prueba.calculadora.model.Result;
 
-public class Sum implements OperationsI{
+import io.corp.calculator.TracerImpl;
 
+@Component
+public class Sum implements OperationsI {
+    @Autowired
+    TracerImpl tracer;
 
-	@Override
-	public Result calc(CalculatorInput calculatorInput) {
-		result.setResult(calculatorInput.getFirstOperator().add(calculatorInput.getSecondOperator()));
-		tracerBean.trace("Result of the sum " + result.getResult());
-		return result;
-	}
-
+    @Override
+    public Result calc(CalculatorInput calculatorInput) {
+       Result result = new Result();
+       result.setResult(calculatorInput.getFirstOperator().add(calculatorInput.getSecondOperator()));
+        tracer.trace("Result of the sum " + result.getResult());
+        return result;
+    }
 }

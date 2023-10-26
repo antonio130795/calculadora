@@ -39,6 +39,7 @@ public class CalculatorService {
 		AvailableOperations availableOperations = new AvailableOperations();
 		operationsList.addAll(operations.keySet());
 		availableOperations.setAvailableOperations(operationsList);
+		tracer.trace(availableOperations.toString());
 		return availableOperations;
 	}
 

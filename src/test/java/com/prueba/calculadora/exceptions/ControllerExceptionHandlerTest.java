@@ -3,6 +3,7 @@ package com.prueba.calculadora.exceptions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,13 +25,19 @@ public class ControllerExceptionHandlerTest {
     @Mock
     private TracerImpl tracer;
 
+    private WebRequest request;
+    
 	@InjectMocks
     ControllerExceptionHandler controllerExceptionHandler;
+	
+    @BeforeEach
+    void setUp() {
+        request = mock(WebRequest.class);
+    }
     
     @Test
     void testResourceNotFoundExceptionHandler() {
         ResourceNotFoundException ex = new ResourceNotFoundException("Resource not found");
-        WebRequest request = mock(WebRequest.class);
         ErrorMessage result = controllerExceptionHandler.resourceNotFoundException(ex, request);
         
         assertEquals(HttpStatus.NOT_FOUND.value(), result.getStatusCode());
@@ -41,7 +48,6 @@ public class ControllerExceptionHandlerTest {
     @Test
     void HttpMessageNotReadableException() {
 		org.springframework.http.converter.HttpMessageNotReadableException ex = new org.springframework.http.converter.HttpMessageNotReadableException("JSON values must be numeric");
-    	WebRequest request = mock(WebRequest.class);
         ErrorMessage result = controllerExceptionHandler.HttpMessageNotReadableException(ex, request);
         
         assertEquals(HttpStatus.BAD_REQUEST.value(), result.getStatusCode());
@@ -51,7 +57,6 @@ public class ControllerExceptionHandlerTest {
     @Test
     void testHttpHttpRequestMethodNotSupportedException() {
     	java.lang.NoSuchMethodError ex = new java.lang.NoSuchMethodError("Json Body required");
-    	WebRequest request = mock(WebRequest.class);
         ErrorMessage result = controllerExceptionHandler.NoSuchMethodError(ex, request);
         
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), result.getStatusCode());
@@ -61,7 +66,6 @@ public class ControllerExceptionHandlerTest {
     @Test
     void HttpHttpRequestMethodNotSupportedException() {
     	org.springframework.web.HttpRequestMethodNotSupportedException ex = new org.springframework.web.HttpRequestMethodNotSupportedException("Method Not Allowed");
-    	WebRequest request = mock(WebRequest.class);
         ErrorMessage result = controllerExceptionHandler.HttpRequestMethodNotSupportedException(ex, request);
         
         assertEquals(HttpStatus.METHOD_NOT_ALLOWED.value(), result.getStatusCode());
@@ -71,7 +75,6 @@ public class ControllerExceptionHandlerTest {
     @Test
     void HttpMediaTypeNotSupportedException() {
     	org.springframework.web.HttpMediaTypeNotSupportedException ex = new org.springframework.web.HttpMediaTypeNotSupportedException("Content Type Not Supported");
-    	WebRequest request = mock(WebRequest.class);
         ErrorMessage result = controllerExceptionHandler.HttpMediaTypeNotSupportedException(ex, request);
         
         assertEquals(HttpStatus.METHOD_NOT_ALLOWED.value(), result.getStatusCode());

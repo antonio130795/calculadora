@@ -7,13 +7,22 @@
 	},
 	"item": [
 		{
+			"name": "AvailableOperations",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/calculator/availableOperations"
+			},
+			"response": []
+		},
+		{
 			"name": "Sum",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"firstOperator\": 1.234,\r\n    \"secondOperator\": 2,\r\n    \"operation\": \"+\"\r\n}",
+					"raw": "{\r\n    \"firstOperator\": 1.234,\r\n    \"secondOperator\": 2,\r\n    \"operation\": \"SUM\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -31,7 +40,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"firstOperator\": 1.234,\r\n    \"secondOperator\": 2,\r\n    \"operation\": \"-\"\r\n}",
+					"raw": "{\r\n    \"firstOperator\": 1.234,\r\n    \"secondOperator\": 2,\r\n    \"operation\": \"SUBTRACT\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

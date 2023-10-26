@@ -2,20 +2,15 @@ package com.prueba.calculadora.exceptions;
 
 import java.util.Date;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
-import io.corp.calculator.TracerImpl;
 
 @RestControllerAdvice
 public class ControllerExceptionHandler {
-  
-  @Autowired
-  TracerImpl tracer;
 	
   @ExceptionHandler(ResourceNotFoundException.class)
   @ResponseStatus(value = HttpStatus.NOT_FOUND)
@@ -26,7 +21,6 @@ public class ControllerExceptionHandler {
             ex.getMessage(),
             request.getDescription(false));
     
-	tracer.trace("Exception : " + ex.getMessage());
 
     return message;
   }
@@ -40,35 +34,41 @@ public class ControllerExceptionHandler {
             "JSON values must be numeric",
             request.getDescription(false));
     
-    tracer.trace("Exception :JSON values must be numeric ");
-    
     return message;
   }
   
   @ExceptionHandler(java.lang.NoSuchMethodError.class)
   @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-  public ErrorMessage HttpMessageNotReadableException(java.lang.NoSuchMethodError ex, WebRequest request) {
+  public ErrorMessage NoSuchMethodError(java.lang.NoSuchMethodError ex, WebRequest request) {
     ErrorMessage message = new ErrorMessage(
             HttpStatus.INTERNAL_SERVER_ERROR.value(),
             new Date(),
             "Json Body required",
             request.getDescription(false));
     
-    tracer.trace("Exception : Json Body required");
-    
     return message;
   }
   
   @ExceptionHandler(org.springframework.web.HttpRequestMethodNotSupportedException.class)
   @ResponseStatus(value = HttpStatus.METHOD_NOT_ALLOWED)
-  public ErrorMessage HttpMessageNotReadableException(org.springframework.web.HttpRequestMethodNotSupportedException ex, WebRequest request) {
+  public ErrorMessage HttpRequestMethodNotSupportedException(org.springframework.web.HttpRequestMethodNotSupportedException ex, WebRequest request) {
     ErrorMessage message = new ErrorMessage(
             HttpStatus.METHOD_NOT_ALLOWED.value(),
             new Date(),
             "Method Not Allowed",
             request.getDescription(false));
     
-    tracer.trace("Exception : Method Not Allowed");
+    return message;
+  }
+  
+  @ExceptionHandler(org.springframework.web.HttpMediaTypeNotSupportedException.class)
+  @ResponseStatus(value = HttpStatus.METHOD_NOT_ALLOWED)
+  public ErrorMessage HttpMediaTypeNotSupportedException(org.springframework.web.HttpMediaTypeNotSupportedException ex, WebRequest request) {
+    ErrorMessage message = new ErrorMessage(
+            HttpStatus.METHOD_NOT_ALLOWED.value(),
+            new Date(),
+            "Content Type Not Supported",
+            request.getDescription(false));
     
     return message;
   }

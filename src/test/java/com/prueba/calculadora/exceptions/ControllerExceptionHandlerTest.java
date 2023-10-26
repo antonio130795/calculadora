@@ -1,70 +1,81 @@
 package com.prueba.calculadora.exceptions;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.context.request.WebRequest;
 
-import com.prueba.calculadora.controller.CalculatorController;
-import com.prueba.calculadora.service.CalculatorService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
-@WebMvcTest(CalculatorController.class)
+@Tag(name = "unitTest")
+@DisplayName("ControllerExceptionHandlerTest")
+@ExtendWith(MockitoExtension.class)
+@SuppressWarnings("deprecation")
 public class ControllerExceptionHandlerTest {
-
-	@Autowired
-	MockMvc mockMvc;
 	
-	@Mock
-	CalculatorService calculatorService;
-	
-	@Mock
-	CalculatorController calculatorController;
-	
-	@Test
-	void testSubstractionException() throws Exception {
-
-		String requestBody = "{\"firstOperator\" : 1,\"SecodOperator\" : 2,\"operation\" : \"-\"}}";
-		mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8080/calculator")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(requestBody))
-				.andExpect(MockMvcResultMatchers.status().isNotFound());
-
-	}
-	
-	@Test
-	void testException400() throws Exception {
-
-		String requestBody = "{\"firstOperator\" : \"a\",\"SecondOperator\" : 2,\"operation\" : \"-\"}}";
-		mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8080/calculator")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(requestBody))
-				.andExpect(MockMvcResultMatchers.status().isBadRequest());
-
-	}
-	
-	@Test
-	void testException500() throws Exception {
-
-		String requestBody = "{\"firstOperator\" : \"a\",\"SecondOperator\" : 2,\"operation\" : \"-\"}}";
-		mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8080/calculator")
-				.contentType(MediaType.APPLICATION_ATOM_XML)
-				.content(requestBody))
-				.andExpect(MockMvcResultMatchers.status().isInternalServerError());
-
-	}
-	
-	@Test
-	void testException415() throws Exception {
-
-		String requestBody = "{\"firstOperator\" : \"a\",\"SecondOperator\" : 2,\"operation\" : \"-\"}}";
-		mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:8080/calculator")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(requestBody))
-				.andExpect(MockMvcResultMatchers.status().isMethodNotAllowed());
-
-	}
+    private ControllerExceptionHandler controllerExceptionHandler;
+    
+    
+    @BeforeEach
+    void setUp() {
+        controllerExceptionHandler = new ControllerExceptionHandler();
+    }
+    
+    @Test
+    void testResourceNotFoundExceptionHandler() {
+        ResourceNotFoundException ex = new ResourceNotFoundException("Resource not found");
+        WebRequest request = mock(WebRequest.class);
+        ErrorMessage result = controllerExceptionHandler.resourceNotFoundException(ex, request);
+        
+        assertEquals(HttpStatus.NOT_FOUND.value(), result.getStatusCode());
+        assertEquals("Resource not found", result.getMessage());
+        
+    }
+    
+    @Test
+    void HttpMessageNotReadableException() {
+		org.springframework.http.converter.HttpMessageNotReadableException ex = new org.springframework.http.converter.HttpMessageNotReadableException("JSON values must be numeric");
+    	WebRequest request = mock(WebRequest.class);
+        ErrorMessage result = controllerExceptionHandler.HttpMessageNotReadableException(ex, request);
+        
+        assertEquals(HttpStatus.BAD_REQUEST.value(), result.getStatusCode());
+        assertEquals("JSON values must be numeric", result.getMessage());
+    }
+    
+    @Test
+    void testHttpHttpRequestMethodNotSupportedException() {
+    	java.lang.NoSuchMethodError ex = new java.lang.NoSuchMethodError("Json Body required");
+    	WebRequest request = mock(WebRequest.class);
+        ErrorMessage result = controllerExceptionHandler.NoSuchMethodError(ex, request);
+        
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), result.getStatusCode());
+        assertEquals("Json Body required", result.getMessage());
+    }
+    
+    @Test
+    void HttpHttpRequestMethodNotSupportedException() {
+    	org.springframework.web.HttpRequestMethodNotSupportedException ex = new org.springframework.web.HttpRequestMethodNotSupportedException("Method Not Allowed");
+    	WebRequest request = mock(WebRequest.class);
+        ErrorMessage result = controllerExceptionHandler.HttpRequestMethodNotSupportedException(ex, request);
+        
+        assertEquals(HttpStatus.METHOD_NOT_ALLOWED.value(), result.getStatusCode());
+        assertEquals("Method Not Allowed", result.getMessage());
+    }
+    
+    @Test
+    void HttpMediaTypeNotSupportedException() {
+    	org.springframework.web.HttpMediaTypeNotSupportedException ex = new org.springframework.web.HttpMediaTypeNotSupportedException("Content Type Not Supported");
+    	WebRequest request = mock(WebRequest.class);
+        ErrorMessage result = controllerExceptionHandler.HttpMediaTypeNotSupportedException(ex, request);
+        
+        assertEquals(HttpStatus.METHOD_NOT_ALLOWED.value(), result.getStatusCode());
+        assertEquals("Content Type Not Supported", result.getMessage());
+    }
+   
 }

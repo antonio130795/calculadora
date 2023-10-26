@@ -1,50 +1,79 @@
 package com.prueba.calculadora.controller;
 
-import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import com.prueba.calculadora.model.AvailableOperations;
+import com.prueba.calculadora.model.CalculatorInput;
+import com.prueba.calculadora.model.Result;
 import com.prueba.calculadora.service.CalculatorService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 
-@WebMvcTest(CalculatorController.class)
+
+@Tag(name = "UnitTest")
+@DisplayName("CalculatorControllerTest")
+@ExtendWith(MockitoExtension.class)
 class CalculatorControllerTest {
-		
-	@Autowired
-	MockMvc mockMvc;
-	
-	@Mock
-	CalculatorService calculatorService;
-	
-	@Mock
-	CalculatorController calculatorController;
-	
-	@Test
-	void testSubstraction() throws Exception {
-		
-		String requestBody = "{\"firstOperator\" : 1,\"secondOperator\" : 2,\"operation\" : \"-\"}";
-		mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8080/calculator")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(requestBody))
-				.andExpect(MockMvcResultMatchers.status().isOk());
+       
+    @Mock
+    CalculatorService calculatorService;
+    
+    @InjectMocks
+    CalculatorController calculatorController;
 
-	}
-	
-	
-	@Test
-	void testSum() throws Exception {
+    private CalculatorInput calculatorInput;
+    private Result operationResult;
+    AvailableOperations availableOperations;
 
-		String requestBody = "{\"firstOperator\" : 1,\"secondOperator\" : 2,\"operation\" : \"+\"}";
-		mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8080/calculator")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(requestBody))
-				.andExpect(MockMvcResultMatchers.status().isOk());
+    @BeforeEach
+    void setUp() {
+       calculatorInput = new CalculatorInput();
+       calculatorInput.setFirstOperator(new BigDecimal(1));
+       calculatorInput.setSecondOperator(new BigDecimal(2));
+       calculatorInput.setOperation("SUM");
+       operationResult = new Result();
+       operationResult.setResult(new BigDecimal(3));
+       
+   	   List<String> operationsList = new ArrayList<String>();
+   	   operationsList.add("SUBTRACTION");
+   	   operationsList.add("SUM");
+   	   availableOperations = new AvailableOperations();
+   	   availableOperations.setAvailableOperations(operationsList);
+    }
+    
+    @Test
+    void testCalculator(){
+       when(calculatorService.performOperation(calculatorInput)).thenReturn(operationResult);
+       ResponseEntity<Result> result = calculatorController.calculator(calculatorInput);
 
-	}
-	
+       assertNotNull(result);
+       assertEquals(HttpStatus.OK, result.getStatusCode());
+       assertEquals(operationResult, result.getBody());
+    }
+    
+    @Test
+    void testOperations(){
+       when(calculatorService.getAvaliableOperations()).thenReturn(availableOperations);
+       ResponseEntity<AvailableOperations> result = calculatorController.operations();
+
+       assertNotNull(result);
+       assertEquals(HttpStatus.OK, result.getStatusCode());
+       assertEquals(availableOperations, result.getBody());
+    }
 }

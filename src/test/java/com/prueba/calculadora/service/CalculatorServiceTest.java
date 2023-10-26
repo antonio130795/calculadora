@@ -27,6 +27,7 @@ import com.prueba.calculadora.model.CalculatorInput;
 import com.prueba.calculadora.model.Result;
 import com.prueba.calculadora.operations.OperationsI;
 
+import io.corp.calculator.TracerImpl;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "unitTest")
@@ -35,6 +36,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 class CalculatorServiceTest {
     @Mock
     Map<String, OperationsI> operations;
+    
+    @Mock
+    private TracerImpl tracer;
 
     @InjectMocks
     CalculatorService calculatorService;

@@ -2,15 +2,21 @@ package com.prueba.calculadora.exceptions;
 
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
+import io.corp.calculator.TracerImpl;
+
 
 @RestControllerAdvice
 public class ControllerExceptionHandler {
+	
+  @Autowired
+  TracerImpl trace;
 	
   @ExceptionHandler(ResourceNotFoundException.class)
   @ResponseStatus(value = HttpStatus.NOT_FOUND)
@@ -21,6 +27,7 @@ public class ControllerExceptionHandler {
             ex.getMessage(),
             request.getDescription(false));
     
+    trace.trace(ex.getMessage());
 
     return message;
   }
@@ -34,6 +41,8 @@ public class ControllerExceptionHandler {
             "JSON values must be numeric",
             request.getDescription(false));
     
+    trace.trace("JSON values must be numeric");
+
     return message;
   }
   
@@ -46,6 +55,8 @@ public class ControllerExceptionHandler {
             "Json Body required",
             request.getDescription(false));
     
+    trace.trace("Json Body required");
+    
     return message;
   }
   
@@ -57,6 +68,8 @@ public class ControllerExceptionHandler {
             new Date(),
             "Method Not Allowed",
             request.getDescription(false));
+
+    trace.trace("Method Not Allowed");
     
     return message;
   }
@@ -70,6 +83,8 @@ public class ControllerExceptionHandler {
             "Content Type Not Supported",
             request.getDescription(false));
     
+    trace.trace("Content Type Not Supported");
+
     return message;
   }
   

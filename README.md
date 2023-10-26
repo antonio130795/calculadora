@@ -60,3 +60,27 @@ Resta:
 	    "secondOperator": 2,
 	    "operation": "-"
 	}
+	
+GET: http://localhost:8080/calculator/availableOperations
+
+Algunos casos de error controlados
+
+POST: http://localhost:8080/calculator
+
+{
+    "firstOperator": 1.234,
+    "SecondOpertor": 2
+}
+
+Body malformed
+
+POST: http://localhost:8080/calculator
+
+{
+    "firstOperator": 1.234,
+    "secondOperator": 1.2,  
+    "operation": 1
+}
+
+
+Operation not available

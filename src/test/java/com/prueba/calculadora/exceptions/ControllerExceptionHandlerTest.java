@@ -3,14 +3,16 @@ package com.prueba.calculadora.exceptions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.context.request.WebRequest;
 
+import io.corp.calculator.TracerImpl;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "unitTest")
@@ -18,14 +20,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @ExtendWith(MockitoExtension.class)
 @SuppressWarnings("deprecation")
 public class ControllerExceptionHandlerTest {
-	
-    private ControllerExceptionHandler controllerExceptionHandler;
-    
-    
-    @BeforeEach
-    void setUp() {
-        controllerExceptionHandler = new ControllerExceptionHandler();
-    }
+	    
+    @Mock
+    private TracerImpl tracer;
+
+	@InjectMocks
+    ControllerExceptionHandler controllerExceptionHandler;
     
     @Test
     void testResourceNotFoundExceptionHandler() {
